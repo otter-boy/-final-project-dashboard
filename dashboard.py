@@ -48,6 +48,7 @@ def load_open_df():
         '60만원대', '70만원대', '80만원대', '90만원대', '100만원 이상'
     ]
     open_df['가격 구간'] = pd.Categorical(open_df['가격 구간'], categories=price_order, ordered=True)
+    open_df['라벨링'] = open_df['라벨링'].fillna('')
     return open_df
 
 open_df = load_open_df()
