@@ -21,6 +21,7 @@ st.set_page_config(layout='wide')
 @st.cache_data
 def load_data():
     df_basic = pd.read_csv("./data/df_basic.csv")
+    df_basic['시작시간'] = pd.to_datetime(df_basic['시작시간'], errors='coerce')
     return df_basic
 
 df_basic = load_data()
@@ -38,7 +39,18 @@ plus_t = load_plus_t()
 df_ad = pd.read_csv('./data/광고상품ROI.csv')
 
 # 경민님 - 버블차트용
-open_df = pd.read_csv('./data/open_df.csv', encoding='utf-8-sig')
+@st.cache_data
+def load_open_df():
+    open_df = pd.read_csv('./data/open_df.csv', encoding='utf-8-sig')
+    # '가격 구간'을 원래의 순서로 카테고리형 변환
+    price_order = [
+        '0만원대', '10만원대', '20만원대', '30만원대', '40만원대', '50만원대', 
+        '60만원대', '70만원대', '80만원대', '90만원대', '100만원 이상'
+    ]
+    open_df['가격 구간'] = pd.Categorical(open_df['가격 구간'], categories=price_order, ordered=True)
+    return open_df
+
+open_df = load_open_df()
 
 # 경민님 - 상품 클러스터링용
 cluster_df = pd.read_csv('./data/cluster_df.csv')
