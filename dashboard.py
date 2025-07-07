@@ -20,10 +20,7 @@ st.set_page_config(layout='wide')
 # ======= basic df ===========
 @st.cache_data
 def load_data():
-    df_basic = pd.read_csv("./data/df_open.csv")
-    df_basic['시작시간'] = pd.to_datetime(df_basic['시작시간'])
-    df_basic['방송시'] = df_basic['시작시간'].dt.hour
-    df_basic['방송일'] = df_basic['시작시간'].dt.day
+    df_basic = pd.read_csv("./data/df_basic.csv")
     return df_basic
 
 df_basic = load_data()
@@ -33,7 +30,7 @@ df_basic = load_data()
 
 @st.cache_data
 def load_plus_t():
-    return pd.read_csv("./data/전체대분류_매출상위_분석.csv")
+    return pd.read_csv("./data/plus_t.csv")
 
 plus_t = load_plus_t()
 
@@ -42,28 +39,9 @@ df_ad = pd.read_csv('./data/광고상품ROI.csv')
 
 # 경민님 - 버블차트용
 open_df = pd.read_csv('./data/open_df.csv', encoding='utf-8-sig')
-# '가격 구간'을 원래의 순서로 카테고리형 변환
-price_order = [
-    '0만원대', '10만원대', '20만원대', '30만원대', '40만원대', '50만원대', 
-    '60만원대', '70만원대', '80만원대', '90만원대', '100만원 이상'
-]
-open_df['가격 구간'] = pd.Categorical(open_df['가격 구간'], categories=price_order, ordered=True)
-open_df['라벨링'].fillna('', inplace=True)
 
 # 경민님 - 상품 클러스터링용
-
-@st.cache_data
-def load_cluster():
-    path = './data/df_cluster.csv'
-    file_id = "1eYwydpYal1FGBxiK6h-7y6h6kFPmnOko"
-    url = f'https://drive.google.com/uc?id={file_id}'
-
-    if not os.path.exists(path):
-        gdown.download(url, path, quiet=False)
-    
-    return pd.read_csv(path)
-
-df_cluster = load_cluster()
+cluster_df = pd.read_csv('./data/cluster_df.csv')
 
 # ===================
 # pro 대시보드에 들어가는 데이터프레임
@@ -843,7 +821,6 @@ elif st.session_state.page == 'Plus':
     st.markdown("---")
     
     # ===== 상품 클러스터링 ==========
-    cluster_df = df_cluster[["대분류", "성별 타겟군", "cluster"]].drop_duplicates()
 
     card_dict = {i: f"card/cluster_{i}.png" for i in range(8)}
 
