@@ -2389,7 +2389,7 @@ elif st.session_state.page == 'Pro':
                     {'role': 'user', 'content': prompt}
                 ],
                 temperature=0.8,
-                max_tokens=300
+                max_tokens=500
             )
             return response.choices[0].message.content.strip()
         if st.button('🚀 제목 추천 받기'):
