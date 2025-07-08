@@ -388,7 +388,8 @@ elif st.session_state.page == 'Basic':
             hourly,
             x='방송시',
             y=metric,
-            title=metric
+            title=metric,
+            labels={'방송시': '방송 시'}
         )
         fig.update_traces(marker_color="#4CAF50", textposition='outside')
         fig.update_layout(margin=dict(t=30, b=20, l=10, r=10), height=280)
@@ -766,7 +767,7 @@ elif st.session_state.page == 'Plus':
     }
     def get_emoji(label):
         if label == 'opportunity':
-            return '📍'
+            return '📌'
         elif label == 'test':
             return '✅'
         else:
@@ -825,7 +826,7 @@ elif st.session_state.page == 'Plus':
     st.plotly_chart(fig, use_container_width=True)
     with st.expander("📘 이모지 해석 가이드"):
         st.markdown("""
-        - 📍 **기회 구간**  
+        - 📌 **기회 구간**  
         기획방송에서 부진하거나 미판매하는 구간입니다. 오픈라방만의 경쟁력을 강화해보세요!
 
         - ✅ **테스트 권장 구간**  
