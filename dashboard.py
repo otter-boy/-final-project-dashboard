@@ -664,12 +664,12 @@ elif st.session_state.page == 'Plus':
         df_planned = p_t[p_t['유형'] == '기획']
 
         hour_counts_planned = df_planned['방송시'].value_counts().sort_index().reset_index()
-        hour_counts_planned.columns = ['방송시', '기획 방송 수']
+        hour_counts_planned.columns = ['방송 시', '기획 방송 수']
         mean_count = hour_counts_planned['기획 방송 수'].mean()
 
         fig1 = px.bar(
             hour_counts_planned,
-            x='방송시',
+            x='방송 시',
             y='기획 방송 수'
         )
         
@@ -715,7 +715,8 @@ elif st.session_state.page == 'Plus':
             color_discrete_map={
                 '강조': '#2E7D32', 
                 '기본': '#4CAF50'  
-            }
+            },
+            labels={'방송시': '방송 시'}
         )
         
         fig2.update_layout(
@@ -765,7 +766,7 @@ elif st.session_state.page == 'Plus':
     }
     def get_emoji(label):
         if label == 'opportunity':
-            return '💡'
+            return '📍'
         elif label == 'test':
             return '✅'
         else:
@@ -824,7 +825,7 @@ elif st.session_state.page == 'Plus':
     st.plotly_chart(fig, use_container_width=True)
     with st.expander("📘 이모지 해석 가이드"):
         st.markdown("""
-        - 💡 **기회 구간**  
+        - 📍 **기회 구간**  
         기획방송에서 부진하거나 미판매하는 구간입니다. 오픈라방만의 경쟁력을 강화해보세요!
 
         - ✅ **테스트 권장 구간**  
@@ -972,7 +973,7 @@ elif st.session_state.page == 'Plus':
             fig.update_traces(marker_color="#4CAF50", texttemplate='%{text:.1f}', textposition='outside')
             
             if len(subset) == 1:
-                fig.update_layout(height=100)
+                fig.update_layout(height=130)
             elif len(subset) == 2:
                 fig.update_layout(height=200)
             else:
